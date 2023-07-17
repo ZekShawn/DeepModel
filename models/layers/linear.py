@@ -1,5 +1,17 @@
 import tensorflow as tf
 import numpy as np
+import os
+from tqdm import tqdm
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
+
+class BatchNormLayer(object):
+
+    def __init__(self):
+        pass
+
+    def __call__(self, inputs, multi_head):
+        pass
 
 
 class Linear(object):
@@ -25,29 +37,21 @@ class Linear(object):
         self.__bias = tf.constant(np.random.standard_normal(output_size), dtype=tf.float32)
 
     def __call__(self, inputs):
+        matmul_out = tf.matmul(inputs, self.__weights)
         if self.__dropout is not None:
             self.__dropout = tf.constant(self.__dropout, dtype=tf.float32)
-            self.__weights = tf.where(
-                tf.less(tf.random.uniform(dtype=tf.float32), self.__dropout),
+            matmul_out = tf.where(
+                tf.less(
+                    tf.random.uniform(shape=(1, self.__output_size), minval=0, maxval=1, dtype=tf.float32),
+                    self.__dropout),
                 tf.constant(0.0, dtype=tf.float32),
-                self.__weights)
-        return tf.add(tf.matmul(inputs, self.__weights), self.__bias)
-
-    @property  # 属性 修饰符
-    def input_size(self):
-        return self.__input_size
-
-    @property
-    def output_size(self):
-        return self.__output_size
-
-    @property
-    def dropout(self):
-        return self.__dropout
+                matmul_out)
+        out = tf.add(matmul_out, self.__bias)
+        return out
 
 
 if __name__ == "__main__":
-    linear = Linear(10, 20)
-    result = linear(inputs=tf.convert_to_tensor([[1, 2, 1, 2, 45, 2, 1, 34, 2, 4.0]], dtype=tf.float32))
-    print(result)
-    pass
+    linear = Linear(input_size=10, output_size=20, dropout=0.3)
+    for i in tqdm(range(100000000)):
+        input_tensor = tf.constant(np.random.normal(loc=0.0, scale=6, size=(2, 10)), dtype=tf.float32)
+        result = linear(inputs=input_tensor)

@@ -1,6 +1,8 @@
+from conf.Base import Config as BaseConfig
 
 
-class Config(object):
+class Config(BaseConfig):
 
     def __init__(self):
+        super(Config, self).__init__()
         pass
