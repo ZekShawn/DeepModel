@@ -1,5 +1,5 @@
-from models.layers.linear import Linear
-from models.layers.embedding import EmbeddingLayer
+from dl_models.layers.linear import Linear
+from dl_models.layers.embedding import EmbeddingLayer
 
 
 class DNN(object):

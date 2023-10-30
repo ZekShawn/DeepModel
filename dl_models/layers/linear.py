@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 import os
-from tqdm import tqdm
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 
@@ -36,15 +35,23 @@ class Linear(object):
             np.random.normal(loc=0.0, scale=glot, size=(input_size, output_size)), dtype=tf.float32)
         self.__bias = tf.constant(np.random.standard_normal(output_size), dtype=tf.float32)
 
-    def __call__(self, inputs):
-        matmul_out = tf.matmul(inputs, self.__weights)
+        # 定义 drop_out tensor
         if self.__dropout is not None:
             self.__dropout = tf.constant(self.__dropout, dtype=tf.float32)
+
+    def __call__(self, inputs):
+        """
+
+        :param inputs:
+        :return:
+        """
+        matmul_out = tf.matmul(inputs, self.__weights)
+        if self.__dropout is not None:
             matmul_out = tf.where(
                 tf.less(
-                    tf.random.uniform(shape=(1, self.__output_size), minval=0, maxval=1, dtype=tf.float32),
+                    tf.random.uniform(shape=tf.shape(matmul_out), minval=0, maxval=1, dtype=tf.float32),
                     self.__dropout),
-                tf.constant(0.0, dtype=tf.float32),
+                tf.zeros_like(matmul_out, dtype=tf.float32),
                 matmul_out)
         out = tf.add(matmul_out, self.__bias)
         return out
@@ -52,6 +59,7 @@ class Linear(object):
 
 if __name__ == "__main__":
     linear = Linear(input_size=10, output_size=20, dropout=0.3)
-    for i in tqdm(range(100000000)):
+    for i in range(1000):
         input_tensor = tf.constant(np.random.normal(loc=0.0, scale=6, size=(2, 10)), dtype=tf.float32)
         result = linear(inputs=input_tensor)
+        print(result)
