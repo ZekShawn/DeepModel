@@ -1,13 +1,13 @@
 # Deep Model
 
 ## 1. Model List
- - [ ] DeepFM
- - [ ] Transformer
- - [ ] MMoE
+- DeepFM
+- Transformer
+- MMoE
 
 ## 2. Branches
 
- - [ ] torch
+- main
 
 ## x. Author
 
