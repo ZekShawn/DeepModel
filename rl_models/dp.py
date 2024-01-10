@@ -1,5 +1,5 @@
 import copy
-from rl_models.env import DPCliffWalkingEnv
+from env import DPCliffWalkingEnv
 
 
 def print_agent(agent, action_meaning, disaster=None, end=None):

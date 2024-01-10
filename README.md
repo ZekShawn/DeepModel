@@ -7,9 +7,9 @@
 
 ## 2. Branches
 
-- tf1
-- torch
+ - [ ] torch
 
 ## x. Author
 
-@[ZekShawn](https://github.com/ZekShawn)
+- Github：[ZekShawn](https://github.com/ZekShawn)
+- Blog：[ZekShawn](https://blog.zeksay.cn)

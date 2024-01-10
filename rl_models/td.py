@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm  # tqdm是显示循环进度条的库
-from rl_models.env import TDCliffWalkingEnv
+from env import TDCliffWalkingEnv
 
 
 def print_agent(agent, env, action_meaning, disaster=None, end=None):
