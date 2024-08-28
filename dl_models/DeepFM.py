@@ -11,6 +11,7 @@ class MockData(object):
     def __call__(self, *args: torch.Any, **kwds: torch.Any) -> torch.Any:
         pass
 
+
 class MLP(nn.Module):
 
     def __init__(self, *args, **kwargs) -> None:
